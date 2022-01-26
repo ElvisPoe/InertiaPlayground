@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function() {
                         'delete' => Auth::user()->can('delete', $user)
                     ]
                 ]),
-            'filters' => Request::only(['serach']),
+            'filters' => Request::only(['search']),
             'can' => [
                 'createUser' => Auth::user()->can('create', User::class)
             ]
