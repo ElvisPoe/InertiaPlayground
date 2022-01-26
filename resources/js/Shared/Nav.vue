@@ -1,5 +1,5 @@
 <template>
-    <div class="nav-wrapper">
+    <div class="nav-wrapper flex justify-space-between align-center">
         <div>
             <h2><a href="/">Inertia Playground</a></h2>
         </div>
@@ -20,9 +20,6 @@ import NavLink from "./NavLink";
 
 <style>
 .nav-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     background: lightgray;
     padding: 5px 15px;
 }
