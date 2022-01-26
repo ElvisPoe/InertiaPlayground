@@ -53,3 +53,10 @@ button {
 .align-center {
     align-items: center;
 }
+
+.error-message {
+    font-weight: bold;
+    color: red;
+    padding-top: 5px;
+}
+

@@ -10,17 +10,20 @@
     <form @submit.prevent="submit">
         <div class="input-wrapper">
             <label for="name">Name</label>
-            <input v-model="form.name" type="text" id="name" name="name" placeholder="User Name">
+            <input v-model="form.name" type="text" id="name" name="name" placeholder="User Name" required>
+            <small v-if="$page.props.errors.name" class="error-message" v-text="$page.props.errors.name"></small>
         </div>
 
         <div class="input-wrapper">
             <label for="email">Email</label>
-            <input v-model="form.email" type="email" id="email" name="email" placeholder="User Email">
+            <input v-model="form.email" type="email" id="email" name="email" placeholder="User Email" required>
+            <small v-if="errors.email" class="error-message" v-text="errors.email"></small>
         </div>
 
         <div class="input-wrapper">
             <label for="password">Password</label>
-            <input v-model="form.password" type="password" id="password" name="password" placeholder="User Password">
+            <input v-model="form.password" type="password" id="password" name="password" placeholder="User Password" required>
+            <small v-if="errors.password" class="error-message" v-text="errors.password"></small>
         </div>
 
         <div class="input-wrapper">
@@ -36,6 +39,10 @@
 import { reactive } from "vue";
 import {Inertia} from "@inertiajs/inertia";
 
+defineProps({
+    errors: Object
+})
+
 let form = reactive({
     name: '',
     email: '',
@@ -45,7 +52,6 @@ let form = reactive({
 let submit = () => {
     Inertia.post('/users', form);
 }
-
 </script>
 
 <style scoped>
@@ -64,7 +70,8 @@ let submit = () => {
 
 .input-wrapper input {
     padding: 10px;
-    border: 1px solid;
+    border-radius: 0;
+    border: 1px solid black;
     outline: none;
     font-size: 18px;
 }

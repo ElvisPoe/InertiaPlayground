@@ -5,7 +5,10 @@
     </Head>
 
     <div class="flex justify-space-between align-center">
-        <h1>Users</h1>
+        <div class="flex justify-space-between align-center">
+            <h1>Users</h1>
+            <Link href="/users/create" as="button">Add New</Link>
+        </div>
         <input type="text" v-model="search" id="search" name="search" placeholder="Search..">
     </div>
 
