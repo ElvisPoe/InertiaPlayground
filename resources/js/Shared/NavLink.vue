@@ -17,6 +17,8 @@ defineProps({
 
 <style scoped>
     .active {
-        font-weight: 600;
+        background: black;
+        padding: 10px;
+        color: white;
     }
 </style>

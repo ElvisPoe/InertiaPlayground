@@ -1,16 +1,16 @@
 <template>
+    <Head title="Home" />
+
     <h1>Home, {{ $page.props.auth.user.name }}</h1>
 
     <p class="pt-50">{{ date }}</p>
 
 </template>
 
-<script>
-export default {
-    props: {
-        date: String
-    }
-}
+<script setup>
+defineProps({
+    date: String
+})
 </script>
 
 <style scoped>
