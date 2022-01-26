@@ -15,7 +15,9 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Home');
+    return Inertia::render('Home', [
+        'date' => date("Y-m-d H:i:s")
+    ]);
 });
 
 Route::get('/users', function () {

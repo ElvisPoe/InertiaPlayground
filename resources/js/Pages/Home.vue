@@ -1,14 +1,20 @@
 <template>
     <h1>Home, {{ $page.props.auth.user.name }}</h1>
 
-    <Nav />
+    <p class="pt-50">{{ date }}</p>
 
 </template>
 
 <script>
-import  Nav from "../Shared/Nav";
-
 export default {
-    components: { Nav },
-};
+    props: {
+        date: String
+    }
+}
 </script>
+
+<style scoped>
+.pt-50 {
+    padding-top: 50px;
+}
+</style>

@@ -1,10 +1,11 @@
 <template>
-    <Nav />
-</template>
-<script>
-import Nav from "../Nav"
+    <header>
+        <Nav />
+    </header>
 
-export default {
-    components: { Nav }
-}
+    <slot />
+</template>
+
+<script setup>
+import Nav from "../Nav"
 </script>

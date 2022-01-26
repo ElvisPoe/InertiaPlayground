@@ -7,16 +7,12 @@
     <!-- preserve-scroll if we want to -->
 </template>
 
-<script>
-import { Link } from "@inertiajs/inertia-vue3";
+<script setup>
 
-export default {
-    components: { Link },
+defineProps({
+    active: Boolean
+})
 
-    props: {
-        active: Boolean
-    }
-};
 </script>
 
 <style scoped>
