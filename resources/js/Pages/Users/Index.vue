@@ -36,6 +36,7 @@
 import Paginator from "../../Shared/Paginator";
 import { ref, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia"
+import debounce from "lodash/debounce"
 
 let props = defineProps({
     users: Object,
@@ -44,12 +45,12 @@ let props = defineProps({
 
 let search = ref(props.filters.search); // Set the default Search Value
 
-watch(search, value => {
+watch(search, debounce( function (value) { // Make the request after user end typing (500ms)
     Inertia.get('/users', {search: value}, {
         preserveState: true, // No losing the search value
         replace: true // Not adding every request as a new back route
     });
-})
+}, 300));
 
 </script>
 
