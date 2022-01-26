@@ -11,23 +11,23 @@
         <div class="input-wrapper">
             <label for="name">Name</label>
             <input v-model="form.name" type="text" id="name" name="name" placeholder="User Name" required>
-            <small v-if="$page.props.errors.name" class="error-message" v-text="$page.props.errors.name"></small>
+            <small v-if="form.errors.name" class="error-message" v-text="form.errors.name"></small>
         </div>
 
         <div class="input-wrapper">
             <label for="email">Email</label>
             <input v-model="form.email" type="email" id="email" name="email" placeholder="User Email" required>
-            <small v-if="errors.email" class="error-message" v-text="errors.email"></small>
+            <small v-if="form.errors.email" class="error-message" v-text="form.errors.email"></small>
         </div>
 
         <div class="input-wrapper">
             <label for="password">Password</label>
             <input v-model="form.password" type="password" id="password" name="password" placeholder="User Password" required>
-            <small v-if="errors.password" class="error-message" v-text="errors.password"></small>
+            <small v-if="form.errors.password" class="error-message" v-text="form.errors.password"></small>
         </div>
 
         <div class="input-wrapper">
-            <button type="submit">Save</button>
+            <button type="submit" :disabled="form.processing">Save</button>
         </div>
     </form>
 
@@ -36,21 +36,16 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
-import {Inertia} from "@inertiajs/inertia";
+import { useForm } from "@inertiajs/inertia-vue3"
 
-defineProps({
-    errors: Object
-})
-
-let form = reactive({
+let form = useForm({
     name: '',
     email: '',
     password: ''
 })
 
 let submit = () => {
-    Inertia.post('/users', form);
+    form.post('/users');
 }
 </script>
 
