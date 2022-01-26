@@ -7,7 +7,7 @@
     <div class="flex justify-space-between align-center">
         <div class="flex justify-space-between align-center">
             <h1>Users</h1>
-            <Link href="/users/create" as="button">Add New</Link>
+            <Link v-if="can.createUser" href="/users/create" as="button">Add New</Link>
         </div>
         <input type="text" v-model="search" id="search" name="search" placeholder="Search..">
     </div>
@@ -22,8 +22,8 @@
             <td v-text="user.name"></td>
             <td v-text="user.email"></td>
             <td>
-                <Link :href="`/users/${user.id}/edit`" as="button">Edit</Link>
-                <Link :href="`/users/${user.id}/delete`" as="button">Delete</Link>
+                <Link v-if="user.can.edit" :href="`/users/${user.id}/edit`" as="button">Edit</Link>
+                <Link v-if="user.can.delete" :href="`/users/${user.id}/delete`" as="button">Delete</Link>
             </td>
         </tr>
     </table>
@@ -40,7 +40,8 @@ import debounce from "lodash/debounce"
 
 let props = defineProps({
     users: Object,
-    filters: Object
+    filters: Object,
+    can: Object
 })
 
 let search = ref(props.filters.search); // Set the default Search Value

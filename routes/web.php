@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,48 +18,60 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Home', [
-        'date' => date("Y-m-d H:i:s")
-    ]);
-});
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-Route::get('/users', function () {
-    return Inertia::render('Users/Index', [
-        'users' => User::query()
-            ->when(Request::input('search'), function ($query, $search) {
-                $query->where('name', 'like', "%{$search}%");
-            })
-            ->paginate(10)
-            ->withQueryString()
-            ->through(fn($user) => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-            ]),
-        'filters' => Request::only(['serach'])
-    ]);
-});
 
-Route::get('/users/create', function () {
-    return Inertia::render('Users/Create');
-});
-Route::post('/users', function () {
-    $attrs = Request::validate([
-        'name' => 'required',
-        'email' => ['email', 'required'],
-        'password' => 'required',
-    ]);
+Route::middleware('auth')->group(function() {
 
-    User::create($attrs);
+    Route::get('/', function () {
+        return Inertia::render('Home', [
+            'date' => date("Y-m-d H:i:s")
+        ]);
+    });
 
-    return redirect('/users');
-});
+    Route::get('/users', function () {
+        return Inertia::render('Users/Index', [
+            'users' => User::query()
+                ->when(Request::input('search'), function ($query, $search) {
+                    $query->where('name', 'like', "%{$search}%");
+                })
+                ->paginate(10)
+                ->withQueryString()
+                ->through(fn($user) => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'can' => [
+                        'edit' => Auth::user()->can('edit', $user),
+                        'delete' => Auth::user()->can('delete', $user)
+                    ]
+                ]),
+            'filters' => Request::only(['serach']),
+            'can' => [
+                'createUser' => Auth::user()->can('create', User::class)
+            ]
+        ]);
+    });
 
-Route::get('/settings', function () {
-    return Inertia::render('Settings');
-});
+    Route::get('/users/create', function () {
+        return Inertia::render('Users/Create');
+    })->can('create','App\Models\User');
 
-Route::post('/logout', function () {
-    dd(request('foo'));
+    Route::post('/users', function () {
+        $attrs = Request::validate([
+            'name' => 'required',
+            'email' => ['email', 'required'],
+            'password' => 'required',
+        ]);
+
+        User::create($attrs);
+
+        return redirect('/users');
+    });
+
+    Route::get('/settings', function () {
+        return Inertia::render('Settings');
+    });
 });

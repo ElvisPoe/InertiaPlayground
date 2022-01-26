@@ -6,7 +6,9 @@ import Default from "./Shared/Layouts/Default"
 createInertiaApp({
     resolve: async name => {
         let page = (await import(`./Pages/${name}`)).default;
-        page.layout ??= Default;
+        if(page.layout === undefined){
+            page.layout = Default;
+        }
         return page
     },
     setup({ el, App, props, plugin }) {

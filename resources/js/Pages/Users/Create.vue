@@ -3,8 +3,6 @@
 
     <div class="flex justify-space-between align-center">
         <h1>Create User</h1>
-
-<!--        <button>Save</button>-->
     </div>
 
     <form @submit.prevent="submit">
